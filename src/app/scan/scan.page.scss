@@ -1,0 +1,16 @@
+.bg {
+  background: url('../../assets/img/bg.jpg') 0 0/100% 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30vh !important;
+}
+.contents {
+  position: relative;
+}
+
+ion-toolbar {
+  --background: transparent !important;
+  --color: #fff !important;
+}
