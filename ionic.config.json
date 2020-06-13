@@ -1,0 +1,7 @@
+{
+  "name": "EduPass",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
