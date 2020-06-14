@@ -11,6 +11,7 @@ export class ScanPage implements OnInit {
 
   ngOnInit() {
   }
-  unread(){}
+  addToList() { }
+  delete(){}
 
 }

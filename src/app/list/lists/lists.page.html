@@ -18,29 +18,21 @@
 
          <ion-card-content>
            <ion-list>
-             <ion-item-sliding>
+             <ion-item-sliding *ngFor="let list of lists">
 
-               <ion-item routerLink="item/qw" detail>
-                 <ion-label>Item</ion-label>
+               <ion-item [routerLink]="['/item', list.id]" routerLinkActive="router-link-active"  detail>
+                 <ion-label>
+                   <h2> {{ list.title }} </h2>
+                   <p> {{ list.description }} </p>
+                 </ion-label>
                </ion-item>
                <ion-item-options side="end">
-                 <ion-item-option (click)="delete()" color="danger">
+                 <ion-item-option (click)="delete(list.id)" color="danger">
                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
                  </ion-item-option>
                </ion-item-options>
              </ion-item-sliding>
 
-             <ion-item-sliding>
-
-               <ion-item>
-                 <ion-label>Item</ion-label>
-               </ion-item>
-                <ion-item-options side="end">
-                  <ion-item-option (click)="delete()" color="danger">
-                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                  </ion-item-option>
-                </ion-item-options>
-             </ion-item-sliding>
            </ion-list>
          </ion-card-content>
        </ion-card>
