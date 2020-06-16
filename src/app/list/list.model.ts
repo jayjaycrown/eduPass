@@ -5,3 +5,12 @@ export class List {
     public description: string,
   ) {}
 }
+
+
+export class Scan {
+  constructor(
+    public id: string,
+    public content: string,
+    public listId: string
+  ){}
+}

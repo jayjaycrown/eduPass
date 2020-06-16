@@ -4,50 +4,71 @@
     <ion-toolbar translucent>
       <ion-title>Scanner</ion-title>
       <ion-buttons slot="end">
-        <ion-button color="secondary">
-          <ion-icon slot="icon-only" name="scan-circle-outline"></ion-icon>
+        <ion-button color="secondary" (click)="scan()">
+          <ion-icon slot="start" name="scan-circle-outline"></ion-icon>SCAN
         </ion-button>
       </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar>
+      <form [formGroup]="mainForm">
+        <ion-searchbar formControlName="content" (change)="searchStudent()"></ion-searchbar>
+      </form>
+
     </ion-toolbar>
 
     <ion-card>
       <ion-card-header>
-        <ion-card-title>Scanned Items</ion-card-title>
+        <ion-card-title>Student Record</ion-card-title>
       </ion-card-header>
+      <ion-card-content *ngIf="!item">
+        there are no item to display
+      </ion-card-content>
 
-      <ion-card-content>
-        <ion-list>
-          <ion-item-sliding>
-            <ion-item-options side="start">
-              <ion-item-option (click)="delete()" color="danger">
-                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
+      <ion-card-content *ngIf="item" style="text-align: center;">
+        <img [src]="item.passport" alt="" srcset="">
+        <ion-list >
+          <ion-item>
+            <ion-label>
+              <p>Name</p>
+              <h2>{{ item.name }}</h2>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>Matric No</p>
+              <p>{{ item.matric }}</p>
+            </ion-label>
+          </ion-item>
+           <ion-item>
+             <ion-label>
+               <p>Phone No</p>
+               <p>{{ item.phone }}</p>
+             </ion-label>
+           </ion-item>
             <ion-item>
-              <ion-label>Item</ion-label>
+              <ion-label>
+                <p>Department</p>
+                <p>{{ item.department }}</p>
+              </ion-label>
             </ion-item>
-            <ion-item-options side="end" >
-              <ion-item-option (click)="addToList()" color="secondary">
-                <ion-icon slot="icon-only" name="add-outline"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
-
-          <ion-item-sliding>
-             <ion-item-options side="start">
-               <ion-item-option (click)="delete()" color="danger">
-                 <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-               </ion-item-option>
-             </ion-item-options>
             <ion-item>
-              <ion-label>Item</ion-label>
+              <ion-label>
+                <p>Faculty</p>
+                <p>{{ item.faculty }}</p>
+              </ion-label>
             </ion-item>
-            <ion-item-options side="end">
-              <ion-item-option (click)="addToList()" color="secondary">
-                <ion-icon slot="icon-only" name="add-outline"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
+            <ion-item>
+              <ion-label>
+                <p>ID expiry date</p>
+                <p> {{ item.expiryDate.seconds*1000 | date}}</p>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <p>Admission date</p>
+                <p> {{ item.admission.seconds*1000 | date}}</p>
+              </ion-label>
+            </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>

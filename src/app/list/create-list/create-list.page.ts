@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { ListService } from '../list.service';
@@ -15,7 +14,6 @@ export class CreateListPage implements OnInit {
   mainForm: FormGroup;
   constructor(private listService: ListService,
               private formBuilder: FormBuilder,
-              private toast: ToastController,
               private router: Router) { }
 
 
@@ -26,6 +24,7 @@ export class CreateListPage implements OnInit {
       this.mainForm.value.description
     ).then(_ => {
       this.mainForm.reset();
+      this.router.navigateByUrl('/home/tabs/lists');
     });
   }
 

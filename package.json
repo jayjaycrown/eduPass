@@ -1,8 +1,8 @@
 {
-  "name": "EduPass",
+  "name": "SIRAP",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Jayjaycrown",
+  "homepage": "https://edupass-d2cd1.web.app/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@angular/common": "~9.1.6",
     "@angular/core": "~9.1.6",
+    "@angular/fire": "^6.0.0",
     "@angular/forms": "~9.1.6",
     "@angular/platform-browser": "~9.1.6",
     "@angular/platform-browser-dynamic": "~9.1.6",
@@ -31,6 +32,7 @@
     "@ionic/lab": "^3.1.7",
     "@ionic/storage": "^2.2.0",
     "cordova-sqlite-storage": "^5.0.0",
+    "firebase": "^7.15.1",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",

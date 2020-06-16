@@ -6,7 +6,7 @@
        <ion-title>My Lists</ion-title>
        <ion-buttons slot="end">
          <ion-button color="secondary" routerLink="new">
-           <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+           <ion-icon slot="start" name="add-circle-outline"></ion-icon>ADD
          </ion-button>
        </ion-buttons>
      </ion-toolbar>
@@ -18,16 +18,16 @@
 
          <ion-card-content>
            <ion-list>
-             <ion-item-sliding *ngFor="let list of lists">
+             <ion-item-sliding *ngFor="let list of lists" #slidingBooking>
 
-               <ion-item [routerLink]="['/item', list.id]" routerLinkActive="router-link-active"  detail>
+               <ion-item [routerLink]="['item', list.id]" routerLinkActive="router-link-active"  detail>
                  <ion-label>
                    <h2> {{ list.title }} </h2>
                    <p> {{ list.description }} </p>
                  </ion-label>
                </ion-item>
                <ion-item-options side="end">
-                 <ion-item-option (click)="delete(list.id)" color="danger">
+                 <ion-item-option (click)="delete(list.id, slidingBooking)" color="danger">
                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
                  </ion-item-option>
                </ion-item-options>

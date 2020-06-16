@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { IonItemSliding, LoadingController, ToastController } from '@ionic/angular';
 
 import { ListService } from '../list.service';
 import { List } from '../list.model';
@@ -13,9 +13,15 @@ import { List } from '../list.model';
 export class ListsPage implements OnInit {
 
   lists: List[] = [];
-  constructor(private router: Router, private listService: ListService, private toast: ToastController) { }
+  constructor(private router: Router,
+              private listService: ListService,
+              private toast: ToastController,
+              private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
+
+  }
+  ionViewWillEnter() {
     this.listService.getDatabaseState().subscribe(ready => {
       if (ready) {
         this.listService.getLists().subscribe(lists => {
@@ -24,18 +30,16 @@ export class ListsPage implements OnInit {
       }
     });
   }
-  delete(id) {
-    this.listService.deleteList(id).then(async (res) => {
-      // tslint:disable-next-line: prefer-const
-      let toast = await this.toast.create({
-        message: 'List deleted',
-        duration: 2500
+  delete(id, slidingEl: IonItemSliding) {
+    slidingEl.close();
+    this.loadingCtrl.create({ message: 'Cancelling...' }).then(loadingEl => {
+      loadingEl.present();
+      this.listService.deleteList(id).then( res => {
+        loadingEl.dismiss();
+      }).catch(err => {
+        alert(err);
       });
-      toast.present();
     });
-  }
 
-  // addList() {
-  //   this.router.navigateByUrl('/new');
-  // }
+  }
 }

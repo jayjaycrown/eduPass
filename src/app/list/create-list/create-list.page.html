@@ -13,7 +13,7 @@
         <ion-card-title>Create a New List</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <form [formGroup]="mainForm" (ngSubmit)="addList()">
+        <form [formGroup]="mainForm">
           <ion-item>
             <ion-label position="floating">List Title</ion-label>
             <ion-input formControlName="title" type="text" required></ion-input>
@@ -22,7 +22,7 @@
             <ion-label position="floating">List Description</ion-label>
             <ion-textarea rows="8" formControlName="description" type="text" required></ion-textarea>
           </ion-item>
-          <ion-button type="submit" expand=" full" color="primary">Save</ion-button>
+          <ion-button (click)="addList()" expand="full" color="primary">Save</ion-button>
         </form>
 
       </ion-card-content>
