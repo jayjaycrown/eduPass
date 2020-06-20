@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "EduPass",
+  "appId": "com.jayjaycrown.SIRAP",
+  "appName": "SIRAP",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

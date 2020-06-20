@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController, NavController, LoadingController } from '@ionic/angular';
+import { ToastController, NavController, LoadingController, Platform } from '@ionic/angular';
 
 import { ListService } from '../list.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
+
+import pdfmake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfmake.vfs = pdfFonts.pdfMake.vfs;
 
 
 
@@ -13,11 +19,11 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
   styleUrls: ['./list-item.page.scss'],
 })
 export class ListItemPage implements OnInit {
-
   id: any;
   list: any;
   items: any;
   data: any;
+  pdfMaker: any;
 
   constructor(
     private navCtrl: NavController,
@@ -26,6 +32,9 @@ export class ListItemPage implements OnInit {
     private listService: ListService,
     private toast: ToastController,
     private barcodeScanner: BarcodeScanner,
+    private plt: Platform,
+    private file: File,
+    private fileOpener: FileOpener
     ) {
 
 
@@ -46,7 +55,6 @@ export class ListItemPage implements OnInit {
   async getItems(id) {
     (await this.listService.getItemUnderList(id)).subscribe(res => {
       this.items = res;
-      // alert(JSON.stringify(this.items));
     });
   }
 
@@ -117,8 +125,7 @@ export class ListItemPage implements OnInit {
 delete(id) {
   this.listService.deleteItem(id).then(async (res) => {
     this.autoRefresh();
-      // tslint:disable-next-line: prefer-const
-    let toast = await this.toast.create({
+    const toast = await this.toast.create({
       message: 'List deleted',
       duration: 2500
     });
@@ -126,6 +133,80 @@ delete(id) {
     });
   }
 
+  createPdf() {
 
+    function buildTableBody(data, columns) {
+      const body = [];
+
+      body.push(columns);
+
+      data.forEach((row) => {
+        const dataRow = [];
+
+        columns.forEach((column) => {
+          dataRow.push(row[column].toString());
+        });
+
+        body.push(dataRow);
+      });
+
+      return body;
+    }
+
+    function table(data, columns) {
+      return {
+        table: {
+          headerRows: 1,
+          body: buildTableBody(data, columns)
+        }
+      };
+    }
+
+    const docDefinition = {
+      content: [
+        { text: this.list.title, style: 'header' },
+        { text: this.list.description, style: 'subheader' },
+
+        table(this.items, ['id', 'content'])
+      ],
+      styles: {
+        tableExample: {
+          margin: [0, 5, 0, 15]
+        },
+        header: {
+          fontSize: 18,
+          bold: true
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 15, 0, 0]
+        },
+        story: {
+          alignment: 'center',
+          width: '50%'
+        }
+      }
+    };
+
+    this.pdfMaker = pdfmake.createPdf(docDefinition);
+
+  }
+  downloadPdf() {
+    if (this.plt.is('capacitor') || this.plt.is('cordova')) {
+      this.pdfMaker.getBuffer((buffer) => {
+        const utf8 = new Uint8Array(buffer);
+        const binaryArray = utf8.buffer;
+        const blob = new Blob([binaryArray], { type: 'application/pdf' });
+
+        this.file.writeFile(this.file.dataDirectory, 'ScannedList.pdf', blob, { replace: true }).then(fileEntry => {
+          this.fileOpener.open(this.file.dataDirectory + 'ScannedList.pdf', 'application/pdf');
+        });
+      });
+    }
+    else {
+      this.pdfMaker.download();
+    }
+  }
 
 }

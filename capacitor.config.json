@@ -1,12 +1,12 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "EduPass",
+  "appId": "com.jayjaycrown.SIRAP",
+  "appName": "SIRAP",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
   "plugins": {
     "SplashScreen": {
-      "launchShowDuration": 0
+      "launchShowDuration": 3000
     }
   },
   "cordova": {}

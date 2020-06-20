@@ -4,11 +4,11 @@
   </ion-refresher>
   <div class="bg"></div>
   <div class="contents">
-    <ion-toolbar>
+    <ion-toolbar translucent>
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/home/tabs/lists"></ion-back-button>
       </ion-buttons>
-      <ion-title>{{ list.title }}</ion-title>
+      <ion-title>My List</ion-title>
       <ion-buttons slot="end">
         <ion-button color="secondary" (click)="scan()">
           <ion-icon slot="start" name="scan-circle-outline"></ion-icon>SCAN
@@ -26,10 +26,13 @@
           <ion-list-header>
             <ion-label>Saved Items</ion-label>
           </ion-list-header>
+          <ion-item *ngIf="!items">
+            <ion-label>There are no items to display</ion-label>
+          </ion-item>
           <ion-item-sliding  *ngFor="let item of items">
             <ion-item >
               <ion-label>
-                <h2> {{item.title}} </h2>
+                <h2> {{item.id}} </h2>
                 <p>{{item.content}}</p>
               </ion-label>
             </ion-item>
@@ -43,6 +46,10 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
+
+    <ion-button expand="full" (click)="createPdf()">Generate Pdf</ion-button>
+    <ion-button expand="full" (click)="downloadPdf()" color="secondary" [disabled]="!pdfMaker">Download Pdf</ion-button>
+
 
 
   </div>

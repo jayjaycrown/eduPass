@@ -10,6 +10,8 @@ import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { ListItemPage } from './list-item.page';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import {File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
   providers: [
     SQLite,
     SQLitePorter,
-    BarcodeScanner
+    BarcodeScanner,
+    File,
+    FileOpener
   ],
   declarations: [ListItemPage]
 })

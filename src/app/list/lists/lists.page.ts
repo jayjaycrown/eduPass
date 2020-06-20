@@ -13,33 +13,51 @@ import { List } from '../list.model';
 export class ListsPage implements OnInit {
 
   lists: List[] = [];
-  constructor(private router: Router,
-              private listService: ListService,
-              private toast: ToastController,
-              private loadingCtrl: LoadingController) { }
+  constructor(
+    private router: Router,
+    private listService: ListService,
+    private toast: ToastController,
+    private loadingCtrl: LoadingController) { }
 
-  ngOnInit() {
-
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.ngOnInit();
+    this.getLists();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
-  ionViewWillEnter() {
+
+  async getLists() {
+   await ( this.listService.getLists()).subscribe(lists => {
+      this.lists = lists;
+    });
+  }
+  ngOnInit() {
     this.listService.getDatabaseState().subscribe(ready => {
       if (ready) {
-        this.listService.getLists().subscribe(lists => {
-          this.lists = lists;
-        });
+        this.getLists();
       }
     });
   }
+  autoRefresh() {
+    location.reload();
+    this.ngOnInit();
+  }
+
   delete(id, slidingEl: IonItemSliding) {
     slidingEl.close();
-    this.loadingCtrl.create({ message: 'Cancelling...' }).then(loadingEl => {
-      loadingEl.present();
-      this.listService.deleteList(id).then( res => {
-        loadingEl.dismiss();
-      }).catch(err => {
-        alert(err);
+    this.listService.deleteList(id).then(async (res) => {
+      this.autoRefresh();
+      const toast = await this.toast.create({
+        message: 'List deleted',
+        duration: 2500
       });
+      toast.present();
+      // this.autoRefresh();
+    }).catch(err => {
+      alert(err);
     });
-
   }
 }

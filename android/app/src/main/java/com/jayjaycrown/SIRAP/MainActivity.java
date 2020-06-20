@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.jayjaycrown.SIRAP;
 
 import android.os.Bundle;
 

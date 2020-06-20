@@ -182,7 +182,15 @@ export class ListService {
   deleteList(id) {
     return this.database.executeSql('DELETE FROM savedLists WHERE id = ?', [id])
       .then(_ => {
-        this.getLists();
+        return this.savedLists.asObservable();
+        // this.getLists();
+      });
+  }
+  deleteItem(id) {
+    return this.database.executeSql('DELETE FROM savedItems WHERE id = ?', [id])
+      .then(_ => {
+        return this.scanItems.asObservable();
+        // this.getScannedItems();
       });
   }
 
@@ -229,12 +237,6 @@ export class ListService {
   // Add items
 
   // Delete List
-  deleteItem(id) {
-    return this.database.executeSql('DELETE FROM savedItems WHERE id = ?', [id])
-      .then(_ => {
-        return this.scanItems.asObservable();
-        // this.getScannedItems();
-      });
-  }
+
 
 }
