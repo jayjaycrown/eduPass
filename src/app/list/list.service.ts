@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take, map, tap, delay } from 'rxjs/operators';
 
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
