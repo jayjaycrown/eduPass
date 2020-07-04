@@ -142,7 +142,6 @@ export class ListService {
     // tslint:disable-next-line: prefer-const
     let data = [content, listId];
     return this.database.executeSql(q, data).then(res => {
-      console.log(`response is:  ${JSON.stringify(res)}`);
       this.loadSavedItems();
     }).catch(err => console.log(`Error is: ${err}`));
   }
@@ -167,10 +166,10 @@ export class ListService {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < doc.rows.length; i++) {
           Items.push({
+            sn: i + 1,
             id: doc.rows.item(i).id,
             content: doc.rows.item(i).content,
           });
-          console.log(`All returned Rows are ${JSON.stringify(Items)}`);
         }
       }
       this.scanItems.next(Items);

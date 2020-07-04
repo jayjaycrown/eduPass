@@ -8,7 +8,7 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/home/tabs/lists"></ion-back-button>
       </ion-buttons>
-      <ion-title>My List</ion-title>
+      <ion-title>Lists</ion-title>
       <ion-buttons slot="end">
         <ion-button color="secondary" (click)="scan()">
           <ion-icon slot="start" name="scan-circle-outline"></ion-icon>SCAN
@@ -29,12 +29,18 @@
           <ion-item *ngIf="!items">
             <ion-label>There are no items to display</ion-label>
           </ion-item>
-          <ion-item-sliding  *ngFor="let item of items">
+          <ion-item-sliding *ngFor="let item of items; let i=index">
             <ion-item >
-              <ion-label>
-                <h2> {{item.id}} </h2>
-                <p>{{item.content}}</p>
-              </ion-label>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size-sm="3">
+                    <ion-label>{{item.sn}}</ion-label>
+                  </ion-col>
+                  <ion-col size-sm="9">
+                    <ion-label>{{item.content}}</ion-label>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
             </ion-item>
             <ion-item-options side="end">
               <ion-item-option (click)="delete(item.id)" color="danger">
@@ -46,12 +52,21 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
-
-    <ion-button expand="full" (click)="createPdf()">Generate Pdf</ion-button>
-    <ion-button expand="full" (click)="downloadPdf()" color="secondary" [disabled]="!pdfMaker">Download Pdf</ion-button>
-
-
-
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="full" (click)="createPdf()">Generate Pdf</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="full" (click)="downloadPdf()" color="secondary" [disabled]="!pdfMaker">Download Pdf
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
   </div>
 
 </ion-content>

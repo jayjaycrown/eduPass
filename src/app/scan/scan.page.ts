@@ -45,29 +45,33 @@ export class ScanPage implements OnInit {
         showFlipCameraButton: true,
         showTorchButton: true,
       }
-    ).then(barcodeData => {
+    ).then((barcodeData: any) => {
       this.data = barcodeData.text;
-
-      this.loadingCtrl.create({
-        keyboardClose: true,
-        message: `
+      // alert(this.data);
+      if (this.data) {
+        this.loadingCtrl.create({
+          keyboardClose: true,
+          message: `
                 <div class="custom-spinner-container">
                   <div class="custom-spinner-box"></div>
                 </div>`
-      }).then(loadingEl => {
-        loadingEl.present();
-        this.list.searchStudent(this.data).then(doc => {
-          loadingEl.dismiss();
-          // alert(doc);
-          this.item = doc;
-          console.log(doc);
+        }).then(loadingEl => {
+          loadingEl.present();
+          this.list.searchStudent(this.data).then(doc => {
+            loadingEl.dismiss();
+            // alert(doc);
+            this.item = doc;
+            console.log(doc);
+          }).catch(err => {
+            this.message = err;
+          });
         }).catch();
-      });
-
+      }
     }).catch(err => {
-      console.log('Error', err);
+      this.message = err;
     });
   }
+
   searchStudent() {
     this.loadingCtrl.create({
       message: `

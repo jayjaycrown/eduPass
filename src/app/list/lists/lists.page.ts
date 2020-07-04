@@ -22,7 +22,6 @@ export class ListsPage implements OnInit {
   doRefresh(event) {
     console.log('Begin async operation');
     this.ngOnInit();
-    this.getLists();
     setTimeout(() => {
       console.log('Async operation has ended');
       event.target.complete();
@@ -42,20 +41,18 @@ export class ListsPage implements OnInit {
     });
   }
   autoRefresh() {
-    location.reload();
     this.ngOnInit();
   }
 
-  delete(id, slidingEl: IonItemSliding) {
-    slidingEl.close();
-    this.listService.deleteList(id).then(async (res) => {
+  delete(id) {
+    this.listService.deleteList(id).then(async (res: any) => {
       this.autoRefresh();
       const toast = await this.toast.create({
         message: 'List deleted',
         duration: 2500
       });
       toast.present();
-      // this.autoRefresh();
+      this.lists = res;
     }).catch(err => {
       alert(err);
     });

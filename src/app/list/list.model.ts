@@ -1,6 +1,6 @@
 export class List {
   constructor(
-    public id: string,
+    public id: number,
     public title: string,
     public description: string,
   ) {}
@@ -9,7 +9,7 @@ export class List {
 
 export class Scan {
   constructor(
-    public id: string,
+    public id: number,
     public content: string,
     public listId: string
   ){}

@@ -7,6 +7,12 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.tab-selected {
+  border-top: 1px solid #031937;
+  border-bottom: 1px solid #031937;
+  color: #031937 !important;
+}
+
 
 #container strong {
   font-size: 20px;

@@ -101,20 +101,22 @@ export class ListItemPage implements OnInit {
         showTorchButton: true,
       }
     ).then(barcodeData => {
-      this.data = barcodeData.text;
-      this.route.paramMap.subscribe(res => {
-        this.id = res.get('listId');
-      });
-      this.loadingCtrl.create({
-        message: `
+       this.data = barcodeData.text;
+       if (this.data) {
+        this.route.paramMap.subscribe(res => {
+          this.id = res.get('listId');
+        });
+        this.loadingCtrl.create({
+          message: `
                 <div class="custom-spinner-container">
                   <div class="custom-spinner-box"></div>
                 </div>`
-      }).then(loadingEl => {
-        loadingEl.present();
-        this.addItem(this.data, this.id);
-        loadingEl.dismiss();
-      });
+        }).then(loadingEl => {
+          loadingEl.present();
+          this.addItem(this.data, this.id);
+          loadingEl.dismiss();
+        });
+      }
 
     }).catch(err => {
       console.log('Error', err);
@@ -130,7 +132,9 @@ delete(id) {
       duration: 2500
     });
     toast.present();
-    });
+  }).catch(err => {
+    alert(err);
+  });
   }
 
   createPdf() {
@@ -155,9 +159,11 @@ delete(id) {
 
     function table(data, columns) {
       return {
+        style: 'tableExample',
         table: {
+          widths: [100, 300],
           headerRows: 1,
-          body: buildTableBody(data, columns)
+          body: buildTableBody(data, columns),
         }
       };
     }
@@ -167,26 +173,28 @@ delete(id) {
         { text: this.list.title, style: 'header' },
         { text: this.list.description, style: 'subheader' },
 
-        table(this.items, ['id', 'content'])
+        table(this.items, ['S/N', 'Content'])
       ],
       styles: {
-        tableExample: {
-          margin: [0, 5, 0, 15]
-        },
         header: {
           fontSize: 18,
-          bold: true
+          bold: true,
+          margin: [0, 0, 0, 10]
         },
         subheader: {
           fontSize: 16,
           bold: true,
-          margin: [0, 15, 0, 0]
+          margin: [0, 10, 0, 5]
         },
-        story: {
-          alignment: 'center',
-          width: '50%'
+        tableExample: {
+          margin: [0, 5, 0, 15]
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: 'black'
         }
-      }
+      },
     };
 
     this.pdfMaker = pdfmake.createPdf(docDefinition);
