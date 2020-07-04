@@ -41,6 +41,7 @@ export class ListsPage implements OnInit {
     });
   }
   autoRefresh() {
+    location.reload();
     this.ngOnInit();
   }
 

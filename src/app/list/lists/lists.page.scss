@@ -6,6 +6,10 @@
   width: 100%;
   height: 30vh !important;
 }
+ion-content {
+  --background: url(../../../assets/img/splash.png) 0px 90px/100% 100% no-repeat;
+  background: #ffffff;
+}
 
 .contents {
   position: relative;
