@@ -10,10 +10,18 @@ const routes: Routes = [
     path: 'lists',
     loadChildren: () => import('./list/lists/lists.module').then(m => m.ListsPageModule),
   },
+  // {
+  //   path: 'test',
+  //   loadChildren: () => import('./list/list-item/list-item.module').then(m => m.ListItemPageModule)
+  // },
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   },
 
 ];

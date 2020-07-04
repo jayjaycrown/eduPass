@@ -6,10 +6,11 @@ import { ListService } from '../list.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { PDFGenerator } from '@ionic-native/pdf-generator';
 
-import pdfmake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfmake.vfs = pdfFonts.pdfMake.vfs;
+// import pdfmake from 'pdfmake/build/pdfmake';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
+// pdfmake.vfs = pdfFonts.pdfMake.vfs;
 
 
 
@@ -26,6 +27,8 @@ export class ListItemPage implements OnInit {
   pdfMaker: any;
   itemRef: any;
 
+
+
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
@@ -35,7 +38,9 @@ export class ListItemPage implements OnInit {
     private barcodeScanner: BarcodeScanner,
     private plt: Platform,
     private file: File,
-    private fileOpener: FileOpener
+    private fileOpener: FileOpener,
+    // private pdfGen: PDFGenerator,
+    // private pdfGenerator: PDFGenerator
     ) {
 
 
@@ -59,11 +64,11 @@ export class ListItemPage implements OnInit {
     });
   }
 
-  async getItemss(id) {
-    (await this.listService.getItemUnderLists(id)).subscribe(res => {
-      this.itemRef = res;
-    });
-  }
+  // async getItemss(id) {
+  //   (await this.listService.getItemUnderLists(id)).subscribe(res => {
+  //     this.itemRef = res;
+  //   });
+  // }
 
   getListDetail(id) {
     this.listService.getList(id).then(data => {
@@ -96,7 +101,7 @@ export class ListItemPage implements OnInit {
         loadingEl.present();
         this.getListDetail(this.id);
         this.getItems(this.id);
-        this.getItemss(this.id);
+        // this.getItemss(this.id);
         loadingEl.dismiss();
       });
     });
@@ -145,84 +150,183 @@ delete(id) {
   });
   }
 
+  // createPdf() {
+
+  //   function buildTableBody(data, columns) {
+  //     const body = [];
+
+  //     body.push(columns);
+
+  //     data.forEach((row) => {
+  //       const dataRow = [];
+
+  //       columns.forEach((column) => {
+  //         dataRow.push(row[column].toString());
+  //       });
+
+  //       body.push(dataRow);
+  //     });
+
+  //     return body;
+  //   }
+
+  //   function table(data, columns) {
+  //     return {
+  //       style: 'tableExample',
+  //       table: {
+  //         widths: [100, 300],
+  //         headerRows: 1,
+  //         body: buildTableBody(data, columns),
+  //       }
+  //     };
+  //   }
+
+  //   const docDefinition = {
+  //     content: [
+  //       { text: this.list.title, style: 'header' },
+  //       { text: this.list.description, style: 'subheader' },
+
+  //       table(this.itemRef, ['S/N', 'Content'])
+  //     ],
+  //     styles: {
+  //       header: {
+  //         fontSize: 18,
+  //         bold: true,
+  //         margin: [0, 0, 0, 10]
+  //       },
+  //       subheader: {
+  //         fontSize: 16,
+  //         bold: true,
+  //         margin: [0, 10, 0, 5]
+  //       },
+  //       tableExample: {
+  //         margin: [0, 5, 0, 15]
+  //       },
+  //       tableHeader: {
+  //         bold: true,
+  //         fontSize: 13,
+  //         color: 'black'
+  //       }
+  //     },
+  //   };
+
+  //   this.pdfMaker = pdfmake.createPdf(docDefinition);
+
+  // }
+
+
+  // createPdf() {
+
+  //   function buildTableBody(data, columns) {
+  //     const body = [];
+
+  //     body.push(columns);
+
+  //     data.forEach((row) => {
+  //       const dataRow = [];
+
+  //       columns.forEach((column) => {
+  //         dataRow.push(row[column].toString());
+  //       });
+
+  //       body.push(dataRow);
+  //     });
+
+  //     return body;
+  //   }
+
+  //   function table(data, columns) {
+  //     return {
+  //       style: 'tableExample',
+  //       table: {
+  //         widths: [100, 300],
+  //         headerRows: 1,
+  //         body: buildTableBody(data, columns)
+  //       }
+  //     };
+  //   }
+
+  //   const docDefinition = {
+  //     content: [
+  //       { text: this.list.title, style: 'header' },
+  //       { text: this.list.description, style: 'subheader' },
+
+  //       table(this.items, ['id', 'content'])
+  //     ],
+  //     styles: {
+  //       tableExample: {
+  //         margin: [0, 5, 0, 15]
+  //       },
+  //       header: {
+  //         fontSize: 18,
+  //         bold: true
+  //       },
+  //       subheader: {
+  //         fontSize: 16,
+  //         bold: true,
+  //         margin: [0, 15, 0, 0]
+  //       },
+  //       story: {
+  //         alignment: 'center',
+  //         width: '50%'
+  //       }
+  //     }
+  //   };
+
+  //   this.pdfMaker = pdfmake.createPdf(docDefinition);
+
+  // }
+  // downloadPdf() {
+  //   if (this.plt.is('capacitor') || this.plt.is('cordova')) {
+  //     this.pdfMaker.getBuffer((buffer) => {
+  //       const utf8 = new Uint8Array(buffer);
+  //       const binaryArray = utf8.buffer;
+  //       const blob = new Blob([binaryArray], { type: 'application/pdf' });
+
+  //       this.file.writeFile(this.file.dataDirectory, 'ScannedList.pdf', blob, { replace: true }).then(fileEntry => {
+  //         this.fileOpener.open(this.file.dataDirectory + 'ScannedList.pdf', 'application/pdf');
+  //       });
+  //     });
+  //   }
+  //   else {
+  //     this.pdfMaker.download();
+  //   }
+  // }
+
   createPdf() {
-
-    function buildTableBody(data, columns) {
-      const body = [];
-
-      body.push(columns);
-
-      data.forEach((row) => {
-        const dataRow = [];
-
-        columns.forEach((column) => {
-          dataRow.push(row[column].toString());
-        });
-
-        body.push(dataRow);
-      });
-
-      return body;
-    }
-
-    function table(data, columns) {
-      return {
-        style: 'tableExample',
-        table: {
-          widths: [100, 300],
-          headerRows: 1,
-          body: buildTableBody(data, columns),
-        }
-      };
-    }
-
-    const docDefinition = {
-      content: [
-        { text: this.list.title, style: 'header' },
-        { text: this.list.description, style: 'subheader' },
-
-        table(this.itemRef, ['S/N', 'Content'])
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 0, 0, 10]
-        },
-        subheader: {
-          fontSize: 16,
-          bold: true,
-          margin: [0, 10, 0, 5]
-        },
-        tableExample: {
-          margin: [0, 5, 0, 15]
-        },
-        tableHeader: {
-          bold: true,
-          fontSize: 13,
-          color: 'black'
-        }
-      },
+    const options = {
+      type: 'share',
+      fileName: 'v8-tutorial.pdf'
     };
 
-    this.pdfMaker = pdfmake.createPdf(docDefinition);
-
+    const data = `<html>
+      <h1>  {{ list.title }}  </h1>
+      <h4>  {{ list.description }} </h4>
+      <br/>
+      <table>
+        <thead>
+          <tr>
+            <td>S/N</td>
+            <td>Student Details</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items; let i=index">
+            <td> {{i + 1 }} </td>
+            <td> {{item.content}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </html>
+    `;
+    // this.pdfGen.fromURL(url, options).then(base64String => console.log(base64String));
+    PDFGenerator.fromData(data, options).then(status => {
+      alert(status);
+    }).catch(error => {
+      alert(error);
+    });
   }
-  downloadPdf() {
-    if (this.plt.is('capacitor') || this.plt.is('cordova')) {
-      this.pdfMaker.getBuffer((buffer) => {
-        const utf8 = new Uint8Array(buffer);
-        const binaryArray = utf8.buffer;
-        const blob = new Blob([binaryArray], { type: 'application/pdf' });
 
-        this.file.writeFile(this.file.dataDirectory, 'ScannedList.pdf', blob, { replace: true }).then(fileEntry => {
-          this.fileOpener.open(this.file.dataDirectory + 'ScannedList.pdf', 'application/pdf');
-        });
-      });
-    }
-    else {
-      this.pdfMaker.download();
-    }
-  }
 
+  downloadPdf(){ }
 }

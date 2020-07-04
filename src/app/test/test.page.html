@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher slot="fixed" >
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div class="bg"></div>
@@ -9,18 +9,11 @@
         <ion-back-button defaultHref="/home/tabs/lists"></ion-back-button>
       </ion-buttons>
       <ion-title>Lists</ion-title>
-      <ion-buttons slot="end">
-        <ion-button color="secondary" (click)="scan()">
-          <ion-icon slot="start" name="scan-circle-outline"></ion-icon>SCAN
-        </ion-button>
-      </ion-buttons>
+
     </ion-toolbar>
 
-    <ion-card *ngIf="list">
-      <ion-card-header>
-        <ion-card-title> {{ list.title }} </ion-card-title>
-        <ion-card-subtitle> {{ list.description }} </ion-card-subtitle>
-      </ion-card-header>
+    <ion-card >
+
       <ion-card-content>
         <ion-list>
           <ion-list-header>
@@ -42,11 +35,7 @@
                 </ion-row>
               </ion-grid>
             </ion-item>
-            <ion-item-options side="end">
-              <ion-item-option (click)="delete(item.id)" color="danger">
-                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
+
           </ion-item-sliding>
 
         </ion-list>
