@@ -25,12 +25,13 @@ export class HomePage implements OnInit {
     public alertController: AlertController) {
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (this.routerOutlet && this.routerOutlet.canGoBack()) {
-        routerOutlet.pop();
+        this.routerOutlet.pop();
       }
       else if (this.router.url === '/home/tab/scan') {
         this.presentAlertConfirm();
       }
       else {
+        this.routerOutlet.pop();
         this.presentAlertConfirm();
       }
     });

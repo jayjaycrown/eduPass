@@ -24,6 +24,7 @@ export class ListItemPage implements OnInit {
   items: any;
   data: any;
   pdfMaker: any;
+  itemRef: any;
 
   constructor(
     private navCtrl: NavController,
@@ -58,6 +59,12 @@ export class ListItemPage implements OnInit {
     });
   }
 
+  async getItemss(id) {
+    (await this.listService.getItemUnderLists(id)).subscribe(res => {
+      this.itemRef = res;
+    });
+  }
+
   getListDetail(id) {
     this.listService.getList(id).then(data => {
       this.list = data;
@@ -89,6 +96,7 @@ export class ListItemPage implements OnInit {
         loadingEl.present();
         this.getListDetail(this.id);
         this.getItems(this.id);
+        this.getItemss(this.id);
         loadingEl.dismiss();
       });
     });
@@ -173,7 +181,7 @@ delete(id) {
         { text: this.list.title, style: 'header' },
         { text: this.list.description, style: 'subheader' },
 
-        table(this.items, ['S/N', 'Content'])
+        table(this.itemRef, ['S/N', 'Content'])
       ],
       styles: {
         header: {

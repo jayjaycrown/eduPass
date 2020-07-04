@@ -166,8 +166,28 @@ export class ListService {
         // tslint:disable-next-line: prefer-for-of
         for (let i = 0; i < doc.rows.length; i++) {
           Items.push({
-            sn: i + 1,
+            // sn: i + 1,
             id: doc.rows.item(i).id,
+            content: doc.rows.item(i).content,
+          });
+        }
+      }
+      this.scanItems.next(Items);
+      return this.scanItems.asObservable();
+    });
+  }
+
+  getItemUnderLists(id) {
+    const data = [id];
+    return this.database.executeSql('SELECT id, content FROM savedItems WHERE listId = ?', data).then(doc => {
+      // tslint:disable-next-line: prefer-const
+      let Items = [];
+      if (doc.rows.length > 0) {
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < doc.rows.length; i++) {
+          Items.push({
+            sn: i + 1,
+            // id: doc.rows.item(i).id,
             content: doc.rows.item(i).content,
           });
         }
