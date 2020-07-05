@@ -15,8 +15,7 @@
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
-
-    <ion-card *ngIf="list">
+    <ion-card *ngIf="list" id="convert">
       <ion-card-header>
         <ion-card-title> {{ list.title }} </ion-card-title>
         <ion-card-subtitle> {{ list.description }} </ion-card-subtitle>
@@ -52,6 +51,8 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
+
+
     <ion-card>
       <ion-card-content>
         <ion-grid>
@@ -67,6 +68,6 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-  </div>
 
+  </div>
 </ion-content>

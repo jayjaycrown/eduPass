@@ -6,8 +6,11 @@ import { ListService } from '../list.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { PDFGenerator } from '@ionic-native/pdf-generator';
-
+// import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+import * as jsPDF from 'jspdf';
+// import * as html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
+// const html2canvas = require('html2canvas');
 // import pdfmake from 'pdfmake/build/pdfmake';
 // import pdfFonts from 'pdfmake/build/vfs_fonts';
 // pdfmake.vfs = pdfFonts.pdfMake.vfs;
@@ -150,6 +153,33 @@ delete(id) {
   });
   }
 
+  createPdf() {
+    const element = document.getElementById('convert');
+    const options = { background: 'white', height: element.clientHeight, width: element.clientWidth };
+    html2canvas(element, options).then((canvas) => {
+      const imgData = canvas.toDataURL('image/PNG');
+      const doc = new jsPDF('p', 'mm', 'a4');
+      // const imageHeight = canvas.height * 208 / canvas.width;
+      doc.addImage(imgData, 'PNG', 20, 20);
+      const pdfOutput = doc.output();
+      const buffer = new ArrayBuffer(pdfOutput.length);
+      const array = new Uint8Array(buffer);
+      for (let i = 0; i < pdfOutput.length; i++) {
+        array[i] = pdfOutput.charCodeAt(i);
+      }
+      const directory = this.file.externalRootDirectory;
+      const fileName = 'Scanned-items.pdf';
+      this.file.writeFile(directory, fileName, buffer)
+        .then((success) => {
+          this.fileOpener.open(success.nativeURL, 'application/pdf')
+            .then((data) => {
+              console.log('File Opened Succesfully' + JSON.stringify(data));
+            })
+            .catch((error) => console.log('Cannot Open File ' + JSON.stringify(error)));
+        })
+        .catch((error) => alert('Cannot Create File ' + JSON.stringify(error)));
+    });
+  }
   // createPdf() {
 
   //   function buildTableBody(data, columns) {
@@ -293,40 +323,73 @@ delete(id) {
   //   }
   // }
 
-  createPdf() {
-    const options = {
-      type: 'share',
-      fileName: 'v8-tutorial.pdf'
-    };
+  // createPdf() {
+  //   const test = document.getElementById('convert');
+  //   const options = {
+  //     type: 'base64',
+  //     fileName: 'Scanned-Items.pdf',
+  //     documentSize: 'A4',
+  //   };
 
-    const data = `<html>
-      <h1>  {{ list.title }}  </h1>
-      <h4>  {{ list.description }} </h4>
-      <br/>
-      <table>
-        <thead>
-          <tr>
-            <td>S/N</td>
-            <td>Student Details</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of items; let i=index">
-            <td> {{i + 1 }} </td>
-            <td> {{item.content}} </td>
-          </tr>
-        </tbody>
-      </table>
-    </html>
-    `;
-    // this.pdfGen.fromURL(url, options).then(base64String => console.log(base64String));
-    PDFGenerator.fromData(data, options).then(status => {
-      alert(status);
-    }).catch(error => {
-      alert(error);
-    });
-  }
+  //   // const test = '<html><body><h1>Hello world</h1></body> </html>';
+  //   const data = `<html>
+  //     <body>
+  //       <h1>  {{ list.title }}  </h1>
+  //       <h4>  {{ list.description }} </h4>
+  //       <br/>
+  //       <table>
+  //         <thead>
+  //           <tr>
+  //             <td>S/N</td>
+  //             <td>Student Details</td>
+  //           </tr>
+  //         </thead>
+  //         <tbody>
+  //           <tr *ngFor="let item of items; let i=index">
+  //             <td> {{i + 1 }} </td>
+  //             <td> {{item.content}} </td>
+  //           </tr>
+  //         </tbody>
+  //       </table>
+  //     </body>
+  //   </html>
+  //   `;
+  //   // this.pdfGen.fromURL(url, options).then(base64String => console.log(base64String));
+  //   this.pdfGenerator.fromData(data, options)
+  //     .then((base64) => {
+
+  //       this.file.createFile(this.file.externalRootDirectory, 'Scanned-Items.pdf', true).then((response) => {
+  //         console.log('file created', response);
+
+  //         const byteCharacters = atob(base64);
+  //         const byteNumbers = new Array(byteCharacters.length);
+  //         for (let i = 0; i < byteCharacters.length; i++) {
+  //           byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //         }
+
+  //         const byteArray = new Uint8Array(byteNumbers);
+  //         const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+  //         // tslint:disable-next-line: no-shadowed-variable
+  //         this.file.writeExistingFile(this.file.externalRootDirectory, 'test.pdf', blob).then((response) => {
+  //           console.log('successfully wrote to file', response);
+  //           // tslint:disable-next-line: no-shadowed-variable
+  //           this.fileOpener.open(this.file.externalRootDirectory + 'test.pdf', 'application/pdf').then((response) => {
+  //             console.log('opened PDF file successfully', response);
+  //           }).catch((err) => {
+  //             console.log('error in opening pdf file', err);
+  //           });
+  //         }).catch((err) => {
+  //           console.log('error writing to file', err);
+  //         });
+
+  //       }).catch((err) => {
+  //         console.log('Error creating file', err);
+  //       });
+
+  //     });
+  // }
 
 
-  downloadPdf(){ }
+
 }
