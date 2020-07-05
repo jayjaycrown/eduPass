@@ -160,7 +160,7 @@ delete(id) {
       const imgData = canvas.toDataURL('image/PNG');
       const doc = new jsPDF('p', 'mm', 'a4');
       // const imageHeight = canvas.height * 208 / canvas.width;
-      doc.addImage(imgData, 'PNG', 20, 20);
+      doc.addImage(imgData, 'PNG', 0, 0);
       const pdfOutput = doc.output();
       const buffer = new ArrayBuffer(pdfOutput.length);
       const array = new Uint8Array(buffer);
@@ -169,13 +169,13 @@ delete(id) {
       }
       const directory = this.file.externalRootDirectory;
       const fileName = 'Scanned-items.pdf';
-      this.file.writeFile(directory, fileName, buffer)
+      this.file.writeFile(directory, fileName, buffer, { replace: true })
         .then((success) => {
           this.fileOpener.open(success.nativeURL, 'application/pdf')
             .then((data) => {
               console.log('File Opened Succesfully' + JSON.stringify(data));
             })
-            .catch((error) => console.log('Cannot Open File ' + JSON.stringify(error)));
+            .catch((error) => alert('Cannot Open File ' + JSON.stringify(error)));
         })
         .catch((error) => alert('Cannot Create File ' + JSON.stringify(error)));
     });
