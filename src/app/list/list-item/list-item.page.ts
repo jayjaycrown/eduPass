@@ -6,7 +6,7 @@ import { ListService } from '../list.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
-// import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
 import * as jsPDF from 'jspdf';
 // import * as html2canvas from 'html2canvas';
 import html2canvas from 'html2canvas';
@@ -43,7 +43,7 @@ export class ListItemPage implements OnInit {
     private file: File,
     private fileOpener: FileOpener,
     // private pdfGen: PDFGenerator,
-    // private pdfGenerator: PDFGenerator
+    private pdfGenerator: PDFGenerator
     ) {
 
 
@@ -323,72 +323,48 @@ delete(id) {
   //   }
   // }
 
-  // createPdf() {
-  //   const test = document.getElementById('convert');
-  //   const options = {
-  //     type: 'base64',
-  //     fileName: 'Scanned-Items.pdf',
-  //     documentSize: 'A4',
-  //   };
+  downloadPdf() {
+    const test = document.getElementById('show').innerHTML;
+    const options = {
+      type: 'base64',
+      fileName: 'Scanned-Items.pdf',
+      documentSize: 'A4',
+    };
 
-  //   // const test = '<html><body><h1>Hello world</h1></body> </html>';
-  //   const data = `<html>
-  //     <body>
-  //       <h1>  {{ list.title }}  </h1>
-  //       <h4>  {{ list.description }} </h4>
-  //       <br/>
-  //       <table>
-  //         <thead>
-  //           <tr>
-  //             <td>S/N</td>
-  //             <td>Student Details</td>
-  //           </tr>
-  //         </thead>
-  //         <tbody>
-  //           <tr *ngFor="let item of items; let i=index">
-  //             <td> {{i + 1 }} </td>
-  //             <td> {{item.content}} </td>
-  //           </tr>
-  //         </tbody>
-  //       </table>
-  //     </body>
-  //   </html>
-  //   `;
-  //   // this.pdfGen.fromURL(url, options).then(base64String => console.log(base64String));
-  //   this.pdfGenerator.fromData(data, options)
-  //     .then((base64) => {
+    this.pdfGenerator.fromData(test, options)
+      .then((base64) => {
 
-  //       this.file.createFile(this.file.externalRootDirectory, 'Scanned-Items.pdf', true).then((response) => {
-  //         console.log('file created', response);
+        this.file.createFile(this.file.externalRootDirectory, 'Scanned-Items.pdf', true).then((response) => {
+          console.log('file created', response);
 
-  //         const byteCharacters = atob(base64);
-  //         const byteNumbers = new Array(byteCharacters.length);
-  //         for (let i = 0; i < byteCharacters.length; i++) {
-  //           byteNumbers[i] = byteCharacters.charCodeAt(i);
-  //         }
+          const byteCharacters = atob(base64);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
 
-  //         const byteArray = new Uint8Array(byteNumbers);
-  //         const blob = new Blob([byteArray], { type: 'application/pdf' });
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-  //         // tslint:disable-next-line: no-shadowed-variable
-  //         this.file.writeExistingFile(this.file.externalRootDirectory, 'test.pdf', blob).then((response) => {
-  //           console.log('successfully wrote to file', response);
-  //           // tslint:disable-next-line: no-shadowed-variable
-  //           this.fileOpener.open(this.file.externalRootDirectory + 'test.pdf', 'application/pdf').then((response) => {
-  //             console.log('opened PDF file successfully', response);
-  //           }).catch((err) => {
-  //             console.log('error in opening pdf file', err);
-  //           });
-  //         }).catch((err) => {
-  //           console.log('error writing to file', err);
-  //         });
+          // tslint:disable-next-line: no-shadowed-variable
+          this.file.writeExistingFile(this.file.externalRootDirectory, 'test.pdf', blob).then((response) => {
+            console.log('successfully wrote to file', response);
+            // tslint:disable-next-line: no-shadowed-variable
+            this.fileOpener.open(this.file.externalRootDirectory + 'test.pdf', 'application/pdf').then((response) => {
+              console.log('opened PDF file successfully', response);
+            }).catch((err) => {
+              alert('error in opening pdf file: ' + err);
+            });
+          }).catch((err) => {
+            alert('error writing to file: ' + err);
+          });
 
-  //       }).catch((err) => {
-  //         console.log('Error creating file', err);
-  //       });
+        }).catch((err) => {
+          alert('Error creating file: ' + err);
+        });
 
-  //     });
-  // }
+      });
+  }
 
 
 

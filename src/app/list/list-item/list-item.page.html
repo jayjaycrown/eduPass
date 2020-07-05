@@ -53,15 +53,15 @@
     </ion-card>
 
 
-    <ion-card>
+    <ion-card *ngIf="items">
       <ion-card-content>
         <ion-grid>
           <ion-row>
             <ion-col>
-              <ion-button expand="full" (click)="createPdf()">Generate Pdf</ion-button>
+              <ion-button expand="full" (click)="createPdf()" >Generate Pdf</ion-button>
             </ion-col>
             <!-- <ion-col>
-              <ion-button expand="full" (click)="downloadPdf()" color="secondary" [disabled]="!pdfMaker">Download Pdf
+              <ion-button expand="full" (click)="downloadPdf()" color="secondary" >Download Pdf
               </ion-button>
             </ion-col> -->
           </ion-row>
@@ -69,5 +69,45 @@
       </ion-card-content>
     </ion-card>
 
+
+     <!-- <div>
+       <div id="show">
+         <table *ngIf="!items" style="width: 100%; border: 1px solid #eee;">
+           <thead>
+             <tr>
+               <th style="width: 20%;">S/N</th>
+               <th style="width: 80%;">Records</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr *ngFor="let item of items; let i=index">
+               <td style="width: 20%;">{{ i + 1 }}</td>
+               <td style="width: 80%;"> {{ item.content }} </td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+
+     </div> -->
   </div>
 </ion-content>
+
+ <div>
+   <div id="show">
+     <table *ngIf="!items" style="width: 100%; border: 1px solid #eee;">
+       <thead>
+         <tr>
+           <th style="width: 20%;">S/N</th>
+           <th style="width: 80%;">Records</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr *ngFor="let item of items; let i=index">
+           <td style="width: 20%;">{{ i + 1 }}</td>
+           <td style="width: 80%;"> {{ item.content }} </td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+
+ </div>

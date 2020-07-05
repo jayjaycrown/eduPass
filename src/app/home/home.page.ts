@@ -27,9 +27,6 @@ export class HomePage implements OnInit {
       if (this.routerOutlet && this.routerOutlet.canGoBack()) {
         this.routerOutlet.pop();
       }
-      else if (this.router.url === '/home/tab/scan') {
-        this.presentAlertConfirm();
-      }
       else {
         this.routerOutlet.pop();
         this.presentAlertConfirm();
