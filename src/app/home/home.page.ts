@@ -78,7 +78,7 @@ export class HomePage implements OnInit {
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
       header: 'Confirm!',
-      message: 'Confirm to Exit App !!!',
+      message: 'Are you sure you want to exit? !!!',
       buttons: [
         {
           text: 'Cancel',
