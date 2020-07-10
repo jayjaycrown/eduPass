@@ -3,41 +3,44 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div class="bg"></div>
-   <div class="contents">
-     <ion-toolbar translucent>
-       <ion-title>Lists</ion-title>
-       <ion-buttons slot="end">
-         <ion-button color="secondary" routerLink="new">
-           <ion-icon slot="start" name="add-circle-outline"></ion-icon>Create New List
-         </ion-button>
-       </ion-buttons>
-     </ion-toolbar>
+  <div class="contents">
+    <ion-toolbar translucent>
+      <ion-title>Lists</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button menu="first"></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button color="secondary" routerLink="new">
+          <ion-icon slot="start" name="add-circle-outline"></ion-icon>Create New List
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
 
-       <ion-card>
-         <ion-card-header>
-           <ion-card-title>Saved Lists</ion-card-title>
-         </ion-card-header>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Saved Lists</ion-card-title>
+      </ion-card-header>
 
-         <ion-card-content>
-           <ion-list>
-             <ion-item-sliding *ngFor="let list of lists" #slidingBooking>
+      <ion-card-content>
+        <ion-list>
+          <ion-item-sliding *ngFor="let list of lists" #slidingBooking>
 
-               <ion-item [routerLink]="['item', list.id]" routerLinkActive="router-link-active"  detail>
-                 <ion-label>
-                   <h2> {{ list.title }} </h2>
-                   <p> {{ list.description }} </p>
-                 </ion-label>
-               </ion-item>
-               <ion-item-options side="end">
-                 <ion-item-option (click)="delete(list.id, slidingBooking)" color="danger">
-                   <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                 </ion-item-option>
-               </ion-item-options>
-             </ion-item-sliding>
+            <ion-item [routerLink]="['item', list.id]" routerLinkActive="router-link-active" detail>
+              <ion-label>
+                <h2> {{ list.title }} </h2>
+                <p> {{ list.description }} </p>
+              </ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option (click)="delete(list.id, slidingBooking)" color="danger">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
 
-           </ion-list>
-         </ion-card-content>
-       </ion-card>
-   </div>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

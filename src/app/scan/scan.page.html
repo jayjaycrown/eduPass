@@ -3,6 +3,9 @@
   <div class="contents">
     <ion-toolbar translucent>
       <ion-title>Identity Validation</ion-title>
+      <ion-buttons slot="start">
+        <ion-menu-button menu="first"></ion-menu-button>
+      </ion-buttons>
       <!-- <ion-buttons slot="end">
         <ion-button color="secondary" (click)="scan()">
           <ion-icon slot="start" name="scan-circle-outline"></ion-icon>SCAN
@@ -11,8 +14,8 @@
     </ion-toolbar>
     <ion-toolbar>
       <form [formGroup]="mainForm">
-        <ion-searchbar aria-placeholder="Search Student ID" placeholder="Search with Student ID" formControlName="content"
-          (change)="searchStudent()"></ion-searchbar>
+        <ion-searchbar aria-placeholder="Search Student ID" placeholder="Search with Student ID"
+          formControlName="content" (change)="searchStudent()"></ion-searchbar>
       </form>
 
     </ion-toolbar>
@@ -31,12 +34,12 @@
         <ion-card-title>Student Record</ion-card-title>
       </ion-card-header>
       <ion-card-content *ngIf="!item">
-       No record to display
+        No record to display
       </ion-card-content>
 
       <ion-card-content *ngIf="item" style="text-align: center;">
         <img [src]="item.passport" alt="" srcset="">
-        <ion-list >
+        <ion-list>
           <ion-item>
             <ion-label>
               <p>Name</p>
@@ -49,36 +52,36 @@
               <p>{{ item.matric }}</p>
             </ion-label>
           </ion-item>
-           <ion-item>
-             <ion-label>
-               <p>Phone No</p>
-               <p>{{ item.phone }}</p>
-             </ion-label>
-           </ion-item>
-            <ion-item>
-              <ion-label>
-                <p>Department</p>
-                <p>{{ item.department }}</p>
-              </ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>
-                <p>Faculty</p>
-                <p>{{ item.faculty }}</p>
-              </ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>
-                <p>ID expiry date</p>
-                <p> {{ item.expiryDate.seconds*1000 | date}}</p>
-              </ion-label>
-            </ion-item>
-            <ion-item>
-              <ion-label>
-                <p>Admission date</p>
-                <p> {{ item.admission.seconds*1000 | date}}</p>
-              </ion-label>
-            </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>Phone No</p>
+              <p>{{ item.phone }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>Department</p>
+              <p>{{ item.department }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>Faculty</p>
+              <p>{{ item.faculty }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>ID expiry date</p>
+              <p> {{ item.expiryDate.seconds*1000 | date}}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>Admission date</p>
+              <p> {{ item.admission.seconds*1000 | date}}</p>
+            </ion-label>
+          </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
