@@ -12,16 +12,33 @@
         </ion-button>
       </ion-buttons> -->
     </ion-toolbar>
-    <ion-toolbar>
-      <form [formGroup]="mainForm">
-        <ion-searchbar aria-placeholder="Search Student ID" placeholder="Search with Profile ID"
-          formControlName="content" (change)="searchStudent()"></ion-searchbar>
-      </form>
+    <form [formGroup]="mainForm">
+      <ion-grid>
+        <ion-row>
 
-    </ion-toolbar>
+          <ion-col size="9">
+            <ion-item>
+              <ion-label position="floating">Search with Profile ID</ion-label>
+              <ion-input formControlName="stid" type="text" required></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button (click)="searchStudent()" expand="full" color="primary">Search</ion-button>
+          </ion-col>
 
+        </ion-row>
+      </ion-grid>
+    </form>
     <ion-card>
       <ion-card-content>
+        <!--<form [formGroup]="mainForm">
+          <ion-item>
+            <ion-label position="floating">Search with Profile ID</ion-label>
+            <ion-input formControlName="stid" type="text" required (change)="searchStudent($event)"></ion-input>
+          </ion-item>
+          <ion-button (click)="searchStudent()" expand="full" color="primary">Save</ion-button>
+        </form> -->
+
         <ion-button expand="full" color="primary" (click)="scan()">
           <ion-icon slot="start" name="scan-circle-outline"></ion-icon>
           <ion-label>Scan QR Code</ion-label>
