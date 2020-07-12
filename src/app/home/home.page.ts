@@ -1,15 +1,15 @@
-import { Component, ViewChildren, QueryList, OnInit } from '@angular/core';
-import { Platform, IonRouterOutlet, AlertController } from '@ionic/angular';
+import { Component, ViewChildren, QueryList, OnInit } from "@angular/core";
+import { Platform, IonRouterOutlet, AlertController } from "@ionic/angular";
 const { App } = Plugins;
 
-import { Plugins } from '@capacitor/core';
-import { Router } from '@angular/router';
+import { Plugins } from "@capacitor/core";
+import { Router } from "@angular/router";
 const { Toast } = Plugins;
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
   subscription: any;
@@ -22,12 +22,12 @@ export class HomePage implements OnInit {
     private platform: Platform,
     private routerOutlet: IonRouterOutlet,
     public router: Router,
-    public alertController: AlertController) {
+    public alertController: AlertController
+  ) {
     this.platform.backButton.subscribeWithPriority(-1, () => {
       if (this.routerOutlet && this.routerOutlet.canGoBack()) {
         this.routerOutlet.pop();
-      }
-      else {
+      } else {
         this.routerOutlet.pop();
         this.presentAlertConfirm();
       }
@@ -45,22 +45,27 @@ export class HomePage implements OnInit {
   // }
 
   backButtonEvent() {
-    this.backButtonSubscription = this.platform.backButton.subscribe(async () => {
-      this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
-        if (outlet && outlet.canGoBack()) {
-          outlet.pop();
-        } else if (this.router.url === '/home') {
-          // this.presentAlertConfirm();
-          if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
-            // tslint:disable-next-line: no-string-literal
-            navigator['app'].exitApp();
-          } else {
-            this.showToast('Press back again to exit App.');
-            this.lastTimeBackPress = new Date().getTime();
+    this.backButtonSubscription = this.platform.backButton.subscribe(
+      async () => {
+        this.routerOutlets.forEach((outlet: IonRouterOutlet) => {
+          if (outlet && outlet.canGoBack()) {
+            outlet.pop();
+          } else if (this.router.url === "/home") {
+            // this.presentAlertConfirm();
+            if (
+              new Date().getTime() - this.lastTimeBackPress <
+              this.timePeriodToExit
+            ) {
+              // tslint:disable-next-line: no-string-literal
+              navigator["app"].exitApp();
+            } else {
+              this.showToast("Press back again to exit App.");
+              this.lastTimeBackPress = new Date().getTime();
+            }
           }
-        }
-      });
-    });
+        });
+      }
+    );
   }
   ngOnInit(): void {
     // this.backButtonEvent();
@@ -68,32 +73,32 @@ export class HomePage implements OnInit {
 
   async showToast(msg) {
     await Toast.show({
-      text: msg
+      text: msg,
     });
   }
 
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      header: 'Confirm!',
-      message: 'Are you sure you want to exit? !!!',
+      header: "Confirm!",
+      message: "Are you sure you want to exit?",
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary",
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Exit',
+            console.log("Confirm Cancel: blah");
+          },
+        },
+        {
+          text: "Exit",
           handler: () => {
-            console.log('Confirm Okay');
+            console.log("Confirm Okay");
             App.exitApp();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
-
 }
